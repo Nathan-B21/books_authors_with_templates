@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{author.first_name}} {{author.last_name}}</h1>
+        <h5>ID: {{author.id}}</h5>
+        <label for="notes">Notes:</label>
+        <p>{{author.notes}}</p>
+        <!-- <textarea  class = "form-control" name="bookdesc" id="bookdesc" cols="30" rows="10">{{author.notes}}</textarea> -->
+    </div>
+    <div class="container">
+        <h3>Books:</h3>
+        <ul class="list-group">
+            {%for book in author.books.all%}
+            <li class="list-group-item">{{book.title}}</li>
+            {%endfor%}
+        </ul>
+        <form method = "post" action="/addbook/{{author.id}}">
+            {%csrf_token%}
+            <label for="bookId">Select a book</label>
+            <select name="bookId" id="bookId">
+                {%for book in all_books%}
+                <option value="{{book.id}}">{{book.title}}</option>
+                {%endfor%}
+            </select>
+            <button class="btn btn-primary" type="submit">Add</button>
+
+        
+        </form>
+
+    </div>
+    <div class="container">
+        <a href="/addauthors">return to add authors</a>
+    </div>
+    
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+(djangoPy3Env) C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj>manage.py shell
+Python 3.9.2 (tags/v3.9.2:1a79785, Feb 19 2021, 13:44:55) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from books_authors_app.models import Book, Author
+>>> book1 = Book.bojects.create(title = "C Sharp")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Book' has no attribute 'bojects'
+>>> book1 = Book.objects.create(title = "C Sharp")
+>>> book2 = Book.objects.create(title = "Java")
+>>> book3 = Book.objects.create(title = "Python")
+>>> book4 = Book.objects.create(title = "PHP")
+>>> book5 = Book.objects.create(title = "Ruby")
+>>> author1 = Author.objects.create(first_name = "Jane", last_name = "Austen")
+>>> author2 = Author.objects.create(first_name = "Emily", last_name = "Dickinson")
+>>> author3 = Author.objects.create(first_name = "Fyodor", last_name = "Dostoevsky")
+>>> author4 = Author.objects.create(first_name = "william", last_name = "Shakespeare")
+>>> author5 = Author.objects.create(first_name = "Lau", last_name = "Tzu")
+>>> exit()
+
+(djangoPy3Env) C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj>python manage.py makemigrations
+You are trying to add a non-nullable field 'notes' to author without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> timezone.now
+Migrations for 'books_authors_app':
+  books_authors_app\migrations\0002_author_notes.py
+    - Add field notes to author
+
+(djangoPy3Env) C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj>python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, books_authors_app, contenttypes, sessions
+Running migrations:
+  Applying books_authors_app.0002_author_notes... OK
+
+(djangoPy3Env) C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj>python shell
+C:\Users\Nathan\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\python.exe: can't open file 'C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj\shell': [Errno 2] No such file or directory
+
+(djangoPy3Env) C:\Users\Nathan\Desktop\python_stack\django\django_orm\books_authors_proj>python manage.py shell
+Python 3.9.2 (tags/v3.9.2:1a79785, Feb 19 2021, 13:44:55) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from books_authors_app.models import *
+>>> Book.objects.get(id=1)
+<Book: Book object (1)>
+>>> book1 = Book.objects.get(id=1)
+>>> book1.title
+'C Sharp'
+>>> book2 = Book.objects.get(id=2)
+>>> book3 = Book.objects.get(id=3)
+>>> book4 = Book.objects.get(id=4)
+>>> book5 = Book.objects.get(id=5)
+>>> Author.objects.get(id=1)
+<Author: Author object (1)>
+>>> Author.objects.get(id=6)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\query.py", line 406, in get
+    raise self.model.DoesNotExist(
+books_authors_app.models.Author.DoesNotExist: Author matching query does not exist.
+>>> author1 = Author.objects.get(id=1)
+>>> author1.first_namme
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Author' object has no attribute 'first_namme'
+>>> author1.first_name
+'Jane'
+>>> author2 = Author.objects.get(id=2)
+>>> author3 = Author.objects.get(id=3)
+>>> author4 = Author.objects.get(id=4)
+>>> author5 = Author.objects.get(id=5)
+>>> book1.title
+'C Sharp'
+>>> book1.title = "C#"
+>>> book1.save()
+>>> book1.title
+'C#'
+>>> author4.first_name
+'william'
+>>> author4.first_name = "Bill"
+>>> author4.save()
+>>> author4.first_name
+'Bill'
+>>> author1.books.add(book1,book2)
+>>> author1.books.all()
+<QuerySet [<Book: Book object (1)>, <Book: Book object (2)>]>
+>>> author2.books.add(book1,book2,book3)
+>>> author2.books.all()
+<QuerySet [<Book: Book object (1)>, <Book: Book object (2)>, <Book: Book object (3)>]>
+>>> author3.books.add(book1,book2,book3,book4)
+>>> author3.books.all()
+<QuerySet [<Book: Book object (1)>, <Book: Book object (2)>, <Book: Book object (3)>, <Book: Book object (4)>]>
+>>> author4.books.add(book1,book2,book3,book4,book5)
+>>> book3.objects.filter(author.all())
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\manager.py", line 176, in __get__
+    raise AttributeError("Manager isn't accessible via %s instances" % cls.__name__)
+AttributeError: Manager isn't accessible via Book instances
+>>> book3.objects.filter(author)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\manager.py", line 176, in __get__
+    raise AttributeError("Manager isn't accessible via %s instances" % cls.__name__)
+AttributeError: Manager isn't accessible via Book instances
+>>> book3.objects.filter(authors)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\manager.py", line 176, in __get__
+    raise AttributeError("Manager isn't accessible via %s instances" % cls.__name__)
+AttributeError: Manager isn't accessible via Book instances
+>>> book3.authors
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Book' object has no attribute 'authors'
+>>> book3.books.all()
+<QuerySet [<Author: Author object (2)>, <Author: Author object (3)>, <Author: Author object (4)>]>
+>>> book3.books.get(id=1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\Nathan\Desktop\python_stack\my_environments\djangoPy3Env\lib\site-packages\django\db\models\query.py", line 406, in get
+    raise self.model.DoesNotExist(
+books_authors_app.models.Author.DoesNotExist: Author matching query does not exist.
+>>> book3.books.first()
+<Author: Author object (2)>
+>>> book3.books.first().delete
+<bound method Model.delete of <Author: Author object (2)>>
+>>> book3.books.first()
+<Author: Author object (2)>
+>>> book3.books.all()
+<QuerySet [<Author: Author object (2)>, <Author: Author object (3)>, <Author: Author object (4)>]>
+>>> autho2.title
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'autho2' is not defined
+>>> author2.title
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Author' object has no attribute 'title'
+>>> author2.first_name
+'Emily'
+>>> book3.remove(author2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Book' object has no attribute 'remove'
+>>> book3.authors.remove(author2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Book' object has no attribute 'authors'
+>>> book3.books.remove(author2)
+>>> book2.books.add(author5)
+>>> author3.books.all()
+<QuerySet [<Book: Book object (1)>, <Book: Book object (2)>, <Book: Book object (3)>, <Book: Book object (4)>]>
+>>> book5.books.all()
+<QuerySet [<Author: Author object (4)>]>
+>>>

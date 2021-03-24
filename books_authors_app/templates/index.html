@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-sm">
+                <h1>add a book</h1>
+                <form action="/processbook" method='post'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="booktitle">title</label>
+                        <input type="text" class="form-control" id="booktitle" name="booktitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookdesc">Description</label>
+                        <textarea class="form-control" id="bookdesc" rows="3" name = 'bookdesc'> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class = btn>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-sm">
+                <table class="table mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in all_books %}
+                        <tr>
+                            <th>{{book.id}}</th>
+                            <td>{{book.title}}</td>
+                            <td><a href="/viewbook/{{book.id}}">view</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+                <a href="/addauthors">add Authors</a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
